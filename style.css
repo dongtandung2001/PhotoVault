@@ -1,0 +1,1124 @@
+/* ==========================================================================
+   DESIGN SYSTEM & CSS CUSTOM PROPERTIES
+   ========================================================================== */
+:root {
+    /* Color Palette - Premium Wedding Bright/Ivory Theme */
+    --color-bg: #fcfaf7;         /* Warm Ivory/Linen background */
+    --color-bg-panel: #ffffff;   /* Pure white cards/containers */
+    --color-border: rgba(150, 122, 59, 0.15); /* Subtle gold/bronze borders */
+    --color-border-focus: rgba(150, 122, 59, 0.5);
+    
+    --color-text-primary: #2b2927;  /* Deep charcoal for readable text */
+    --color-text-secondary: #706d66; /* Warm taupe for secondary text */
+    --color-text-muted: #a6a39b;    /* Light gray for placeholders */
+    
+    --color-gold: #967a3b;        /* Deeper gold/bronze for high contrast */
+    --color-gold-hover: #b39755;
+    --color-gold-light: rgba(150, 122, 59, 0.08);
+    --color-gold-glow: rgba(150, 122, 59, 0.2);
+    
+    --color-error: #c54a4a;
+    --color-overlay: rgba(252, 250, 247, 0.96); /* Light overlay for Lightbox */
+    
+    /* Typography */
+    --font-serif: 'Cinzel', serif;
+    --font-sans: 'Montserrat', sans-serif;
+    
+    /* Glassmorphism Defaults (Light Mode) */
+    --glass-bg: rgba(252, 250, 247, 0.85);
+    --glass-border: rgba(150, 122, 59, 0.15);
+    --glass-shadow: 0 8px 32px 0 rgba(150, 122, 59, 0.05);
+    --glass-blur: blur(12px);
+
+    /* Transitions */
+    --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-fast: all 0.2s ease;
+}
+
+/* ==========================================================================
+   BASE STYLES
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+    background: #dcd9d2;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Common UI Utilities */
+.hidden {
+    display: none !important;
+}
+
+.badge {
+    background-color: var(--color-gold-light);
+    border: 1px solid var(--color-border);
+    color: var(--color-gold);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   PASSWORD GATE OVERLAY
+   ========================================================================== */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-bg);
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.gate-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.gate-inactive {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.gate-content {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: 3.5rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: var(--glass-shadow);
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    animation: gateEntrance 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes gateEntrance {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.wedding-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--color-gold);
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+    text-shadow: none;
+}
+
+.wedding-subtitle {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.input-group {
+    display: flex;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: var(--transition-fast);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.input-group:focus-within {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 8px var(--color-gold-glow);
+}
+
+#password-input {
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    flex-grow: 1;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.9rem 1.2rem;
+    outline: none;
+}
+
+#password-input::placeholder {
+    color: var(--color-text-muted);
+}
+
+#submit-password-btn {
+    background-color: var(--color-gold-light);
+    border-left: 1px solid var(--color-border);
+    color: var(--color-gold);
+    font-weight: 500;
+    padding: 0 1.8rem;
+    transition: var(--transition-fast);
+}
+
+#submit-password-btn:hover {
+    background-color: var(--color-gold);
+    color: var(--color-bg);
+}
+
+.error-msg {
+    color: var(--color-error);
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    height: 1.2rem;
+    font-weight: 400;
+}
+
+/* ==========================================================================
+   HERO COVER PAGE SECTION
+   ========================================================================== */
+.hero {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--color-bg);
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(43, 41, 39, 0.25); /* High-key overlay to keep text readable on any user photo */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.hero-title {
+    font-family: var(--font-serif);
+    font-size: 4rem;
+    font-weight: 400;
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.hero-subtitle {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.scroll-arrow-btn {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffffff;
+    animation: bounce 2s infinite;
+    z-index: 2;
+    transition: var(--transition-fast);
+}
+
+.scroll-arrow-btn:hover {
+    color: var(--color-gold-hover);
+    transform: translateX(-50%) scale(1.1);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* ==========================================================================
+   STICKY HEADER & TABS
+   ========================================================================== */
+/* ==========================================================================
+   STICKY HEADER & TABS
+   ========================================================================== */
+.main-header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.5rem 3rem 1.2rem 3rem;
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-shadow);
+}
+
+.header-logo {
+    position: relative;
+    display: inline-block;
+}
+
+.collection-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    transition: var(--transition-fast);
+    color: var(--color-text-primary);
+}
+
+.collection-trigger:hover {
+    background-color: var(--color-gold-light);
+}
+
+.collection-trigger span {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+.chevron-icon {
+    color: var(--color-text-secondary);
+    transition: transform var(--transition-fast);
+}
+
+.collection-trigger[aria-expanded="true"] .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.collection-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 10px 30px rgba(150, 122, 59, 0.08);
+    border-radius: 8px;
+    width: 260px;
+    z-index: 1000;
+    overflow: hidden;
+    padding: 0.5rem 0;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.collection-dropdown.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.collection-link {
+    display: block;
+    padding: 0.8rem 1.2rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition-fast);
+    text-align: center;
+}
+
+.collection-link:hover {
+    background-color: var(--color-gold-light);
+    color: var(--color-gold);
+}
+
+.collection-link.active {
+    color: var(--color-gold);
+    font-weight: 600;
+    background-color: rgba(212, 175, 55, 0.03);
+}
+
+.filter-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    padding: 0.2rem 0;
+}
+
+.filter-nav::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari */
+}
+
+.tab-btn {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    padding: 0.4rem 0.2rem;
+    border-radius: 0;
+    border: none;
+    border-bottom: 2px solid transparent;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    color: var(--color-text-primary);
+}
+
+.tab-btn.active {
+    color: var(--color-gold);
+    border-bottom: 2px solid var(--color-gold);
+    font-weight: 600;
+}
+
+.header-lock-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 3rem;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    transition: var(--transition-fast);
+    padding: 0.5rem;
+}
+
+.header-lock-btn:hover {
+    color: var(--color-error);
+    opacity: 1;
+}
+
+/* ==========================================================================
+   GALLERY CONTAINER & MASONRY GRID
+   ========================================================================== */
+.gallery-wrapper {
+    margin-top: 0;
+    padding: 3rem 3rem 4rem 3rem;
+    min-height: 80vh;
+}
+
+.masonry-grid {
+    column-count: 4;
+    column-gap: 1.5rem;
+    width: 100%;
+}
+
+/* Grid Item Card */
+.gallery-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+    break-inside: avoid;
+    cursor: pointer;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: cardReveal 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes cardReveal {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.gallery-item:hover {
+    transform: translateY(-2px);
+}
+
+/* Quick Download Button inside Grid Card */
+.quick-download-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(150, 122, 59, 0.08);
+    transition: var(--transition-fast);
+    opacity: 0;
+    transform: translateY(5px);
+    z-index: 10;
+    pointer-events: auto; /* Allow link clicks */
+}
+
+.gallery-item:hover .quick-download-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.quick-download-btn:hover {
+    background: var(--color-gold);
+    color: var(--color-bg-panel);
+    border-color: var(--color-gold);
+    transform: scale(1.05);
+}
+
+/* Media (Images/Videos) inside Grid */
+.gallery-media-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #faf8f5;
+}
+
+.gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+    opacity: 0; /* starts hidden, JavaScript reveals it on lazy load */
+}
+
+.gallery-item img.loaded {
+    opacity: 1;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.03);
+}
+
+/* Overlay elements on Hover */
+.gallery-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid var(--color-border);
+    opacity: 0;
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    pointer-events: none; /* Let clicks pass through to container */
+}
+
+.gallery-item:hover .gallery-hover-overlay {
+    opacity: 1;
+}
+
+.gallery-hover-overlay h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 0.3rem;
+    transform: translateY(10px);
+    transition: var(--transition-smooth);
+    text-align: center;
+}
+
+.gallery-item:hover .gallery-hover-overlay h4 {
+    transform: translateY(0);
+}
+
+.gallery-hover-overlay span {
+    font-size: 0.75rem;
+    color: var(--color-gold);
+    transform: translateY(10px);
+    transition: var(--transition-smooth);
+    transition-delay: 0.05s;
+    text-align: center;
+}
+
+.gallery-item:hover .gallery-hover-overlay span {
+    transform: translateY(0);
+}
+
+/* Play Button Indicator for Videos */
+.video-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--color-gold);
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-gold);
+    box-shadow: 0 4px 15px rgba(150, 122, 59, 0.15);
+    transition: var(--transition-smooth);
+    pointer-events: none;
+}
+
+.gallery-item:hover .video-badge {
+    background: var(--color-gold);
+    color: var(--color-bg-panel);
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 0 15px var(--color-gold-glow);
+}
+
+/* ==========================================================================
+   LOADER & SKELETON STATES
+   ========================================================================== */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 0;
+    width: 100%;
+}
+
+.spinner {
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(212, 175, 55, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--color-gold);
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.empty-state {
+    text-align: center;
+    padding: 6rem 2rem;
+    color: var(--color-text-secondary);
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    font-weight: 300;
+}
+
+/* ==========================================================================
+   IMMERSIVE LIGHTBOX MODAL (Native Dialog API)
+   ========================================================================== */
+#lightbox {
+    background: transparent;
+    border: none;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    padding: 1.5rem 0;
+    outline: none;
+    display: none; /* Hide when not open */
+    grid-template-rows: auto 1fr auto;
+    z-index: 1000;
+}
+
+#lightbox[open] {
+    display: grid; /* Display as grid when opened natively */
+}
+
+#lightbox::backdrop {
+    background-color: var(--color-overlay);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    animation: backdropFadeIn 0.3s ease forwards;
+}
+
+@keyframes backdropFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Top control actions (Close is floated) */
+.lightbox-close {
+    position: absolute;
+    top: 2rem;
+    right: 2.5rem;
+    color: var(--color-text-secondary);
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--color-border);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1010;
+    transition: var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(150, 122, 59, 0.08);
+}
+
+.lightbox-close:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-gold);
+    background: var(--color-gold-light);
+    transform: rotate(90deg);
+}
+
+/* Media Canvas Area */
+.lightbox-content {
+    grid-row: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: calc(100vh - 140px);
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+}
+
+.lightbox-content img,
+.lightbox-content video {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 10px 40px rgba(150, 122, 59, 0.15);
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.lightbox-content img.active-media,
+.lightbox-content video.active-media {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Lightbox Navigation Buttons */
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1008;
+    transition: var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(150, 122, 59, 0.08);
+}
+
+.lightbox-nav:hover {
+    color: var(--color-gold);
+    border-color: var(--color-gold);
+    background: var(--color-gold-light);
+    box-shadow: 0 0 10px rgba(150, 122, 59, 0.15);
+}
+
+.nav-prev {
+    left: 2.5rem;
+}
+
+.nav-next {
+    right: 2.5rem;
+}
+
+/* Bottom footer controls */
+.lightbox-footer {
+    grid-row: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: var(--glass-bg);
+    border-top: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    z-index: 1005;
+}
+
+.lightbox-caption h3 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: var(--color-text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.lightbox-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-gold-light);
+    border: 1px solid var(--color-border);
+    color: var(--color-gold);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    transition: var(--transition-fast);
+}
+
+.download-btn:hover {
+    background-color: var(--color-gold);
+    color: var(--color-bg-panel);
+    border-color: var(--color-gold);
+    box-shadow: 0 0 12px var(--color-gold-glow);
+}
+
+/* Custom HTML5 Video Controls in Lightbox */
+.lightbox-content video::-webkit-media-controls {
+    background-color: rgba(22, 22, 20, 0.8);
+    border-radius: 4px;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1200px) {
+    .main-header {
+        padding: 1rem 2rem;
+    }
+    
+    .filter-nav {
+        max-width: 55%;
+    }
+    
+    .gallery-wrapper {
+        padding: 2rem 2rem 3rem 2rem;
+    }
+    
+    .masonry-grid {
+        column-count: 3;
+    }
+}
+
+@media (max-width: 900px) {
+    .main-header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        align-items: stretch;
+    }
+    
+    .header-logo {
+        text-align: center;
+    }
+    
+    #logout-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+    
+    .filter-nav {
+        max-width: 100%;
+        justify-content: flex-start;
+        padding-bottom: 0.3rem;
+    }
+    
+    .gallery-wrapper {
+        margin-top: 0;
+        padding: 2rem 1.5rem 2.5rem 1.5rem;
+    }
+    
+    .masonry-grid {
+        column-count: 2;
+        column-gap: 1rem;
+    }
+    
+    .gallery-item {
+        margin-bottom: 1rem;
+    }
+    
+    /* Reposition Lightbox Nav buttons on mobile */
+    .lightbox-nav {
+        width: 48px;
+        height: 48px;
+    }
+    .nav-prev { left: 1rem; }
+    .nav-next { right: 1rem; }
+}
+
+@media (max-width: 600px) {
+    .gate-content {
+        padding: 2.5rem 1.5rem;
+    }
+    
+    .wedding-title {
+        font-size: 2rem;
+    }
+    
+    .gallery-wrapper {
+        padding: 1rem 1rem 2rem 1rem;
+    }
+    
+    .masonry-grid {
+        column-count: 1;
+    }
+    
+    /* Footer layout stacked for tiny screens */
+    .lightbox-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 1rem 1.5rem 2rem 1.5rem;
+    }
+    
+    .lightbox-actions {
+        width: 100%;
+    }
+    
+    .download-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .lightbox-content img,
+    .lightbox-content video {
+        max-width: 95vw;
+        max-height: 70vh;
+    }
+}
+
+/* ==========================================================================
+   HOMEPAGE PORTAL (COLLECTION SELECTOR)
+   ========================================================================== */
+.portal-section {
+    position: relative;
+    padding: 6rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeIn 0.8s ease;
+}
+
+.portal-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.portal-title {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    color: var(--color-text-primary);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+}
+
+.portal-subtitle {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    letter-spacing: 2px;
+}
+
+.portal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    width: 100%;
+}
+
+.portal-card {
+    position: relative;
+    height: 380px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(150, 122, 59, 0.05);
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.5s ease;
+}
+
+.portal-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(30, 29, 27, 0.85) 0%, rgba(30, 29, 27, 0.1) 70%, rgba(30, 29, 27, 0.05) 100%);
+    z-index: 1;
+    transition: opacity 0.5s ease;
+}
+
+.portal-card-content {
+    position: relative;
+    z-index: 2;
+    padding: 2.5rem;
+    color: #ffffff;
+    width: 100%;
+}
+
+.portal-card-title {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1.5px;
+}
+
+.portal-card-count {
+    display: block;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.portal-card-link {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-gold);
+    transition: var(--transition-fast);
+}
+
+.portal-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(150, 122, 59, 0.15);
+}
+
+.portal-card:hover .portal-card-overlay {
+    opacity: 0.9;
+}
+
+.portal-card:hover .portal-card-link {
+    color: #ffffff;
+    letter-spacing: 3px;
+}
+
+.portal-lock-btn {
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    transition: var(--transition-fast);
+    padding: 0.5rem;
+}
+
+.portal-lock-btn:hover {
+    color: var(--color-error);
+    opacity: 1;
+}
+
+/* Header Back Link button */
+.header-back-btn {
+    position: absolute;
+    top: 1.5rem;
+    left: 3rem;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    transition: var(--transition-fast);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-back-btn:hover {
+    color: var(--color-gold);
+    opacity: 1;
+}
+
+@media (max-width: 900px) {
+    .portal-section {
+        padding: 4rem 1.5rem;
+    }
+    
+    .portal-title {
+        font-size: 2.2rem;
+    }
+    
+    .portal-lock-btn {
+        top: 1rem;
+        right: 1.5rem;
+    }
+    
+    .header-back-btn {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+    }
+}

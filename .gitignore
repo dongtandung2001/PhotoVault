@@ -1,0 +1,28 @@
+# Environment files (secrets)
+.env
+
+# Raw wedding media directories (inputs)
+raw_photos/
+raw_media/
+
+# Output directories (temporary)
+dist/
+optimized/
+thumbnails/
+
+# Local runtimes & dependencies
+.venv/
+.node_local/
+.gallery_manifest.json
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS system files
+.DS_Store
+
+# Generated configuration and catalog data
+gallery-config.json
+gallery-data.json
+
