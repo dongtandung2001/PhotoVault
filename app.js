@@ -292,7 +292,7 @@ function renderHomepagePortal(collections) {
     portalGrid.innerHTML = collections.map(col => {
         const colItems = galleryItems.filter(item => item.collection === col);
         const firstImg = colItems.find(item => item.type === "image");
-        const bgUrl = firstImg ? resolveMediaUrl(col, firstImg.original) : '';
+        const bgUrl = firstImg ? resolveMediaUrl(col, firstImg.optimized) : '';
         const displayName = GALLERY_CONFIG.collectionNames[col] || capitalizeWords(col.replace(/-/g, ' '));
 
         return `
@@ -449,9 +449,12 @@ function renderNextBatch() {
         card.dataset.index = i;
 
         // Format URLs
-        const thumbUrl = resolveMediaUrl(item.collection, item.thumbnail);
+        const isVideo = item.type === "video";
+        const previewUrl = isVideo
+            ? resolveMediaUrl(item.collection, item.thumbnail)
+            : resolveMediaUrl(item.collection, item.optimized);
         const downloadUrl = resolveMediaUrl(item.collection, item.original);
-        const hasThumb = !!item.thumbnail;
+        const hasPreview = isVideo ? !!item.thumbnail : !!item.optimized;
 
         // Apply performance guides:
         // - Eager loading + fetchpriority="high" for the first 2 visible images (above the fold) to improve LCP.
@@ -467,11 +470,11 @@ function renderNextBatch() {
         `;
 
         if (item.type === "video") {
-            if (hasThumb) {
+            if (hasPreview) {
                 if (isEager) {
-                    innerHtml += `<img src="${thumbUrl}" alt="${item.name}" width="${imgWidth}" height="${imgHeight}" fetchpriority="high" class="loaded">`;
+                    innerHtml += `<img src="${previewUrl}" alt="${item.name}" width="${imgWidth}" height="${imgHeight}" fetchpriority="high" class="loaded">`;
                 } else {
-                    innerHtml += `<img data-src="${thumbUrl}" alt="${item.name}" width="${imgWidth}" height="${imgHeight}" loading="lazy">`;
+                    innerHtml += `<img data-src="${previewUrl}" alt="${item.name}" width="${imgWidth}" height="${imgHeight}" loading="lazy">`;
                 }
             } else {
                 // Fallback video card
@@ -484,9 +487,9 @@ function renderNextBatch() {
             `;
         } else {
             if (isEager) {
-                innerHtml += `<img src="${thumbUrl}" alt="${item.name}" width="${imgWidth}" height="${imgHeight}" fetchpriority="high" class="loaded">`;
+                innerHtml += `<img src="${previewUrl}" alt="${item.name}" width="${imgWidth}" height="${imgHeight}" fetchpriority="high" class="loaded">`;
             } else {
-                innerHtml += `<img data-src="${thumbUrl}" alt="${item.name}" width="${imgWidth}" height="${imgHeight}" loading="lazy">`;
+                innerHtml += `<img data-src="${previewUrl}" alt="${item.name}" width="${imgWidth}" height="${imgHeight}" loading="lazy">`;
             }
         }
 
