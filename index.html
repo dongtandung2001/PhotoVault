@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Wedding Gallery</title>
+    
+    <!-- SEO and Sharing Metadata -->
+    <meta name="description" content="A beautiful gallery of our wedding photos and videos.">
+    <meta property="og:title" content="Our Wedding Gallery">
+    <meta property="og:description" content="Relive our special day with us.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- PASSWORD GATE OVERLAY -->
+    <div id="password-gate" class="overlay gate-active">
+        <div class="gate-content">
+            <h1 class="wedding-title" id="gate-title">Dũng & Thư</h1>
+            <p class="wedding-subtitle">Please enter the password to view the gallery</p>
+            <form id="password-form">
+                <div class="input-group">
+                    <input type="password" id="password-input" placeholder="Enter Password" required autocomplete="current-password">
+                    <button type="submit" id="submit-password-btn">Enter</button>
+                </div>
+                <p id="password-error" class="error-msg"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN GALLERY INTERFACE (Hidden until password verified) -->
+    <div id="gallery-container" class="hidden">
+        
+        <!-- Homepage Portal (Shown when no hash route is active) -->
+        <section id="homepage-portal" class="portal-section hidden">
+            <button id="portal-lock-btn" class="portal-lock-btn" title="Lock Gallery">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </button>
+            <header class="portal-header">
+                <h1 class="portal-title">Memory Portal</h1>
+                <p class="portal-subtitle">Select a gallery collection to view</p>
+            </header>
+            <div class="portal-grid" id="portal-grid">
+                <!-- Dynamically populated collection tiles -->
+            </div>
+        </section>
+
+        <!-- Collection Subpage View (Shown when hash route is active) -->
+        <div id="collection-view" class="hidden">
+            <!-- Hero Cover Page Section -->
+            <section id="hero-section" class="hero">
+                <div class="hero-content">
+                    <h1 id="hero-title" class="hero-title">Dũng & Thư</h1>
+                    <p id="hero-date" class="hero-subtitle">M a y  1 2 ,  2 0 2 6</p>
+                    <button id="hero-scroll-btn" class="scroll-arrow-btn" aria-label="Scroll down">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Sticky Navigation Header -->
+            <header class="main-header">
+                <a href="#" class="header-back-btn" title="Back to All Galleries">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                </a>
+                <button id="logout-btn" title="Lock Gallery" class="header-lock-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </button>
+                <div class="header-logo" id="collection-dropdown-container">
+                    <button id="collection-select-btn" class="collection-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Select collection">
+                        <span id="logo-title">Dũng & Thư</span>
+                        <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div id="collection-dropdown" class="collection-dropdown hidden" role="listbox">
+                        <!-- Dynamically populated links -->
+                    </div>
+                </div>
+                <nav class="filter-nav" id="filter-tabs">
+                    <!-- Tabs dynamically generated by app.js -->
+                </nav>
+            </header>
+
+            <!-- Main Media Grid -->
+            <main class="gallery-wrapper" id="gallery-grid-section">
+                <div id="gallery-grid" class="masonry-grid">
+                    <!-- Items dynamically rendered by app.js -->
+                </div>
+            
+            <!-- Centered loader spinner -->
+            <div id="gallery-loader" class="loader hidden">
+                <div class="spinner"></div>
+            </div>
+
+            <!-- Empty state when no images match filter -->
+            <div id="empty-state" class="empty-state hidden">
+                <p>No photos or videos found in this category.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- IMMERSIVE LIGHTBOX MODAL (Native Dialog API) -->
+    <dialog id="lightbox">
+        <!-- Close Button -->
+        <button class="lightbox-close" id="lightbox-close-btn" aria-label="Close lightbox">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+
+        <!-- Navigation Buttons -->
+        <button class="lightbox-nav nav-prev" id="lightbox-prev-btn" aria-label="Previous media">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="lightbox-nav nav-next" id="lightbox-next-btn" aria-label="Next media">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <!-- Media Display Area -->
+        <div class="lightbox-content" id="lightbox-content">
+            <!-- Active Image/Video injected here -->
+        </div>
+
+        <!-- Lightbox Caption & Info -->
+        <div class="lightbox-footer">
+            <div class="lightbox-caption">
+                <h3 id="lightbox-title">Photo Name</h3>
+                <span id="lightbox-category" class="badge">Ceremony</span>
+            </div>
+            <div class="lightbox-actions">
+                <a id="lightbox-download" href="#" download target="_blank" class="download-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download Original
+                </a>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Script -->
+    <script src="app.js"></script>
+</body>
+</html>
