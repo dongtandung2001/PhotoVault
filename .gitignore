@@ -26,3 +26,9 @@ __pycache__/
 gallery-config.json
 gallery-data.json
 
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
